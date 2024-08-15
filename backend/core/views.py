@@ -1,18 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import JsonResponse
 from .models import User, Student, SuspendedStudent, Request, Report, LoginHistory
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Enquiry
-from .serializers import EnquirySerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Student, PendingRequest
-from .serializers import StudentSerializer, PendingRequestSerializer
+from .serializers import EnquirySerializer, StudentSerializer, PendingRequestSerializer
 
 
 def register(request):
@@ -78,13 +74,13 @@ def superadmin_dashboard(request):
     login_history = LoginHistory.objects.all()
     return render(request, 'superadmin_dashboard.html', {'login_history': login_history})
 
-#@api_view(['POST'])
-#def submit_enquiry(request):
- # #  serializer = EnquirySerializer(data=request.data)
-  #  if serializer.is_valid():
-    #    serializer.save()
-     #   return Response(serializer.data, status=status.HTTP_201_CREATED)
-#    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+APIView
+def submit_enquiry(request):
+   serializer = EnquirySerializer(data=request.data)
+   if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED) 
+   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SubmitEnquiryView(APIView):
     def post(self, request):
